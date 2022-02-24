@@ -4,6 +4,7 @@ import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
+import org.bson.UuidRepresentation;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,15 +19,19 @@ public class MongoConfig extends AbstractMongoClientConfiguration {
     @Value("${mongodb.connection.url}")
     private String connectionURL;
 
+    @Value("${mongodb.connection.db}")
+    private String db;
+
     @Override
     protected String getDatabaseName() {
-        return "test";
+        return db;
     }
 
     @Override
     public MongoClient mongoClient() {
         MongoClientSettings mongoClientSettings = MongoClientSettings.builder()
                 .applyConnectionString(new ConnectionString(connectionURL))
+                .uuidRepresentation(UuidRepresentation.STANDARD)
                 .build();
 
         return MongoClients.create(mongoClientSettings);
