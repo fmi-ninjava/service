@@ -1,0 +1,158 @@
+{
+	"info": {
+		"_postman_id": "289d8642-8149-43dd-93ff-222b305b8877",
+		"name": "Ninjava",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Customer",
+			"item": [
+				{
+					"name": "Create Customer",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"John Doe\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/customers",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"customers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Customers",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/customers",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"customers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Customer",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/customers/621a6c3e84a58b4f9ec55012",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"customers",
+								"621a6c3e84a58b4f9ec55012"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register Website to Customer",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"baseUrl\": \"example.com/\",\n    \"name\": \"My Blog\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/customers/621a6c3e84a58b4f9ec55012/websites",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"customers",
+								"621a6c3e84a58b4f9ec55012",
+								"websites"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Customer Websites' Visits Report",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/page-visit/621a6c3e84a58b4f9ec55012",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"page-visit",
+								"621a6c3e84a58b4f9ec55012"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "PageVisit",
+			"item": [
+				{
+					"name": "PageVisit",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"baseUrl\": \"example.com/\",\n    \"urlPath\": \"Home/Index\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/page-visit",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"page-visit"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
