@@ -8,6 +8,7 @@ import ro.unibuc.hello.data.CustomerRepository;
 import ro.unibuc.hello.data.PageVisitRepository;
 import ro.unibuc.hello.dto.Customer;
 import ro.unibuc.hello.dto.PageVisit;
+import ro.unibuc.hello.service.HelperService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -19,19 +20,17 @@ import static com.mongodb.client.model.Aggregates.lookup;
 @Controller
 public class PageVisitController {
 
-    @Autowired
-    private PageVisitRepository pageVisitRepository;
+    private final PageVisitRepository pageVisitRepository;
 
-    private String generateRandomIp() {
-        Random r = new Random();
-        return r.nextInt(256) + "." + r.nextInt(256) + "." + r.nextInt(256) + "." + r.nextInt(256);
+    public PageVisitController(PageVisitRepository pageVisitRepository) {
+        this.pageVisitRepository = pageVisitRepository;
     }
 
     @PostMapping("/page-visit")
     @ResponseBody
     public PageVisit pageVisitWebhook(@RequestBody PageVisit pageVisit, HttpServletRequest request) {
         // var originatingIp = request.getRemoteAddr();
-        pageVisit.originatingIp = generateRandomIp();
+        pageVisit.originatingIp = HelperService.generateRandomIp();
         pageVisitRepository.insert(pageVisit);
         return pageVisit;
     }

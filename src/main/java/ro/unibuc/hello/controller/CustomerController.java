@@ -3,77 +3,51 @@ package ro.unibuc.hello.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicLong;
 
-import org.bson.conversions.Bson;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import ro.unibuc.hello.data.CustomerRepository;
-import ro.unibuc.hello.data.InformationEntity;
-import ro.unibuc.hello.data.InformationRepository;
 import ro.unibuc.hello.data.PageVisitRepository;
 import ro.unibuc.hello.dto.Customer;
-import ro.unibuc.hello.dto.PageVisit;
 import ro.unibuc.hello.dto.Website;
 import ro.unibuc.hello.dto.WebsiteVisitReport;
+import ro.unibuc.hello.service.CustomerService;
 
 import static com.mongodb.client.model.Aggregates.lookup;
 
-
-@Controller
+@RestController
+@RequestMapping("customers")
 public class CustomerController {
+    private final CustomerService customerService;
 
     @Autowired
-    private CustomerRepository customerRepository;
-    @Autowired
-    private PageVisitRepository pageVisitRepository;
+    public CustomerController(CustomerService customerService) {
+        this.customerService = customerService;
+    }
 
-    @PostMapping("/customers")
-    @ResponseBody
+    @PostMapping()
     public Customer registerCustomer(@RequestBody Customer customer) {
-        customerRepository.save(customer);
-        return customer;
+        return customerService.registerCustomer(customer);
     }
 
-    @GetMapping("/customers")
-    @ResponseBody
+    @GetMapping()
     public List<Customer> listCustomers() {
-        return customerRepository.findAll();
+        return customerService.listCustomers();
     }
 
-    @DeleteMapping("/customers/{customerId}")
-    @ResponseBody
-    public Optional<Customer> deleteCustomer(@PathVariable String customerId) {
-        var customerOpt = customerRepository.findById(customerId);
-        customerOpt.ifPresent(customer -> customerRepository.delete(customer));
-        return customerOpt;
+    @DeleteMapping("{customerId}")
+    public Customer deleteCustomer(@PathVariable String customerId) {
+        return customerService.deleteCustomer(customerId);
     }
 
-    @PostMapping("/customers/{customerId}/websites")
-    @ResponseBody
+    @PostMapping("{customerId}/websites")
     public void registerWebsite(@PathVariable String customerId, @RequestBody Website website) {
-        var customerOpt = customerRepository.findById(customerId);
-        customerOpt.ifPresent(customer -> {
-            customer.websites.add(website);
-            customerRepository.save(customer);
-        });
+        customerService.registerWebsite(customerId, website);
     }
 
     @GetMapping("/page-visit/{customerId}")
-    @ResponseBody
     public List<WebsiteVisitReport> test(@PathVariable String customerId) {
-        var res = new ArrayList<WebsiteVisitReport>();
-        customerRepository
-                .findById(customerId)
-                .ifPresent(customer -> {
-                    customer.websites.forEach(website -> {
-                        var websiteVisitReport = new WebsiteVisitReport();
-                        websiteVisitReport.baseUrl = website.baseUrl;
-                        websiteVisitReport.pageVisits = pageVisitRepository.findByBaseUrl(website.baseUrl);
-                        res.add(websiteVisitReport);
-                    });
-                });
-        return res;
+        return customerService.test(customerId);
     }
 }

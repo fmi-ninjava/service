@@ -107,7 +107,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "localhost:8080/page-visit/621a6c3e84a58b4f9ec55012",
+							"raw": "localhost:8080/customers/page-visit/621a6c3e84a58b4f9ec55012",
 							"host": [
 								"localhost"
 							],
