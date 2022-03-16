@@ -9,6 +9,8 @@ public class PageVisit {
     public String originatingIp;
     public Date timestamp;
 
+    public PageVisit() {}
+
     public PageVisit(String baseUrl, String urlPath) {
         this.baseUrl = baseUrl;
         this.urlPath = urlPath;

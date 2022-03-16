@@ -60,9 +60,10 @@ public class CustomerServiceTest {
         Customer customer = new Customer("Bob");
         Website website = new Website("example.com", "example");
         customer.customerId = id;
+        customer.websites.add(website);
 
         when(mockCustomerRepository.findById("1")).thenReturn(Optional.of(customer));
-        when(mockCustomerRepository.findById(any())).thenReturn(Optional.of(customer));
+        when(mockCustomerRepository.save(any())).thenReturn(customer);
         // Act
         customerService.registerWebsite(id, website);
 

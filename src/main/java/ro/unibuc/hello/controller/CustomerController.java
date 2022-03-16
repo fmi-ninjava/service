@@ -1,20 +1,13 @@
 package ro.unibuc.hello.controller;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import ro.unibuc.hello.data.CustomerRepository;
-import ro.unibuc.hello.data.PageVisitRepository;
 import ro.unibuc.hello.dto.Customer;
 import ro.unibuc.hello.dto.Website;
 import ro.unibuc.hello.dto.WebsiteVisitReport;
 import ro.unibuc.hello.service.CustomerService;
-
-import static com.mongodb.client.model.Aggregates.lookup;
 
 @RestController
 @RequestMapping("customers")

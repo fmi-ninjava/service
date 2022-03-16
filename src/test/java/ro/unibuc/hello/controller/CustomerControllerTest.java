@@ -1,6 +1,5 @@
 package ro.unibuc.hello.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,10 +7,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.http.MediaType;
 import ro.unibuc.hello.dto.Customer;
 import ro.unibuc.hello.dto.Website;
 import ro.unibuc.hello.dto.WebsiteVisitReport;
@@ -73,9 +72,7 @@ public class CustomerControllerTest {
         when(customerService.listCustomers()).thenReturn(customerList);
 
         // Act
-        MvcResult result = mockMvc.perform(get("/customers")
-                        .content(objectMapper.writeValueAsString(customerList))
-                        .contentType(MediaType.APPLICATION_JSON))
+        MvcResult result = mockMvc.perform(get("/customers"))
                 .andExpect(status().isOk())
                 .andReturn();
 
@@ -104,7 +101,6 @@ public class CustomerControllerTest {
     @Test
     void test_registerWebsite() throws Exception {
         // Arrange
-        Customer customer = new Customer("Bob");
         Website website = new Website("example.com", "example");
 
         doNothing().when(customerService).registerWebsite("1", website);
