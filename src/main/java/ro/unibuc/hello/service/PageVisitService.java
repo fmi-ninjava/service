@@ -17,6 +17,10 @@ public class PageVisitService {
         this.pageVisitRepository = pageVisitRepository;
     }
 
+    void CleanUpDb() {
+        pageVisitRepository.deleteAll();
+    }
+
     public PageVisit pageVisitWebhook(PageVisit pageVisit) {
         // var originatingIp = request.getRemoteAddr();
         pageVisit.originatingIp = HelperService.generateRandomIp();

@@ -41,6 +41,6 @@ public class CustomerController {
 
     @GetMapping("/page-visit/{customerId}")
     public List<WebsiteVisitReport> test(@PathVariable String customerId) {
-        return customerService.test(customerId);
+        return customerService.defaultReport(customerId);
     }
 }

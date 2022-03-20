@@ -121,7 +121,7 @@ public class CustomerControllerTest {
         // Arrange
         List<WebsiteVisitReport> websiteList = new ArrayList<>();
 
-        when(customerService.test(any())).thenReturn(websiteList);
+        when(customerService.defaultReport(any())).thenReturn(websiteList);
 
         // Act
         MvcResult result = mockMvc.perform(get("/customers/page-visit/1"))
