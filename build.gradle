@@ -49,9 +49,7 @@ dependencyManagement {
 
 test {
 	outputs.dir snippetsDir
-	//exclude IT test from build
-	exclude '**/HelloWorldServiceTestIT.class'
-	exclude 'ro/unibuc/hello/e2e'
+	useJUnitPlatform()
 }
 
 asciidoctor {
