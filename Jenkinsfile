@@ -20,7 +20,7 @@ pipeline {
         }
         stage('Publish image') {
             steps {
-                withCredentials([string(credentialsId: 'dockerhub_pass  ', variable: 'DOCKER_PASSWORD')]) {
+                withCredentials([string(credentialsId: 'dockerhub_pass', variable: 'DOCKER_PASSWORD')]) {
                     sh '''
                         docker login docker.io -u micu01 -p ${DOCKER_PASSWORD}
                         docker push <username>/hello-img:$IMAGE_VERSION
