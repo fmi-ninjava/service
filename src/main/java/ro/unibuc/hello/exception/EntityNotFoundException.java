@@ -1,3 +1,4 @@
+
 package ro.unibuc.hello.exception;
 
 public class EntityNotFoundException extends RuntimeException {
