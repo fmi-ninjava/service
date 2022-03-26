@@ -23,7 +23,7 @@ pipeline {
                 withCredentials([string(credentialsId: 'dockerhub-pass', variable: 'DOCKER_PASSWORD')]) {
                     sh '''
                         docker login docker.io -u micu01 -p ${DOCKER_PASSWORD}
-                        docker push micu01/hello-img:$IMAGE_VERSION
+                        docker push micu01/hello-img:${MAJOR_VERSION}.\$((${MINOR_VERSION} + 1)).${PATCH_VERSION}
                     '''
                   }
             }
