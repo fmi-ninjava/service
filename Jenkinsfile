@@ -1,8 +1,5 @@
 pipeline {
     agent any
-    environment {
-        DOCKER_PASSWORD = credentials("dockerhub_pass")
-    }
 
     stages {
         stage('Build & Test') {
@@ -23,8 +20,12 @@ pipeline {
         }
         stage('Publish image') {
             steps {
-               sh "docker login docker.io -u micu01 -p ${DOCKER_PASSWORD}"
-               sh "docker push <username>/hello-img:$IMAGE_VERSION"
+                withCredentials([string(credentialsId: 'dockerhub_pass  ', variable: 'DOCKER_PASSWORD')]) {
+                    sh '''
+                        docker login docker.io -u micu01 -p ${DOCKER_PASSWORD}
+                        docker push <username>/hello-img:$IMAGE_VERSION
+                    '''
+                  }
             }
         }
     }
