@@ -16,12 +16,12 @@ pipeline {
         }
         stage('Tag image') {
               steps {
-                    sh "docker build -t micu01/hello-img:${MAJOR_VERSION}.\$((${MINOR_VERSION} + 1)).${PATCH_VERSION} ."
+                    sh "docker build -t fmininjava/hello-img:${MAJOR_VERSION}.\$((${MINOR_VERSION} + 1)).${PATCH_VERSION} ."
 
                     withCredentials([string(credentialsId: 'dockerhub-pass', variable: 'DOCKER_PASSWORD')]) {
                         sh '''
-                            docker login docker.io -u micu01 -p ${DOCKER_PASSWORD}
-                            docker push micu01/hello-img:${MAJOR_VERSION}.\$((${MINOR_VERSION} + 1)).${PATCH_VERSION}
+                            docker login docker.io -u fmininjava -p ${DOCKER_PASSWORD}
+                            docker push fmininjava/hello-img:${MAJOR_VERSION}.\$((${MINOR_VERSION} + 1)).${PATCH_VERSION}
                         '''
                     }
               }

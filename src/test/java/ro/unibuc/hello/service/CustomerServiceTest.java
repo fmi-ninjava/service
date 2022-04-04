@@ -16,8 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 public class CustomerServiceTest {
@@ -62,7 +61,7 @@ public class CustomerServiceTest {
         customerService.registerWebsite(id, website);
 
         // Assert
-        // ?
+        verify(mockCustomerRepository, times(1)).findById("1");
     }
 
     @Test
