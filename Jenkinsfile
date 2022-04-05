@@ -7,6 +7,7 @@ pipeline {
         MINOR_VERSION = sh([script: 'git tag | sort --version-sort | tail -1| cut -d . -f 2', returnStdout: true]).trim()
         PATCH_VERSION = sh([script: 'git tag | sort --version-sort | tail -1| cut -d . -f 3', returnStdout: true]).trim()
         IMAGE_TAG = "${env.MAJOR_VERSION}.\$((${env.MINOR_VERSION} + 1)).${env.PATCH_VERSION}"
+        GITHUB_TOKEN = credentials("github_token")
     }
 
     stages {
@@ -26,13 +27,10 @@ pipeline {
                         '''
                     }
 
-                    sh "git tag ${env.IMAGE_TAG}"
-
-                    withCredentials([string(credentialsId: 'github_token', variable: 'GITHUB_TOKEN')]) {
-                        sh '''
-                            git push https://${GITHUB_TOKEN}@github.com/fmininjava/service.git ${env.IMAGE_TAG}
-                        '''
-                    }
+                    sh '''
+                        git tag ${env.IMAGE_TAG}
+                        git push https://${env.GITHUB_TOKEN}@github.com/fmininjava/service.git ${env.IMAGE_TAG}
+                    '''
               }
         }
         stage('Deploy') {
