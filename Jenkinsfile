@@ -29,7 +29,7 @@ pipeline {
 
                     sh '''
                         git tag ${env.IMAGE_TAG}
-                        git push https://$GITHUB_TOKEN@github.com/fmininjava/service.git ${env.IMAGE_TAG}
+                        git push https://$env.GITHUB_TOKEN@github.com/fmininjava/service.git ${env.IMAGE_TAG}
                     '''
               }
         }
