@@ -28,7 +28,7 @@ pipeline {
                     }
 
                     sh "git tag ${env.IMAGE_TAG}"
-                    sh "git push https://$env.GITHUB_TOKEN@github.com/fmininjava/service.git ${env.IMAGE_TAG}"
+                    sh "git push https://$env.GITHUB_TOKEN@github.com/fmi-ninjava/service.git ${env.IMAGE_TAG}"
               }
         }
         stage('Deploy') {
