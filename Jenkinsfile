@@ -29,7 +29,7 @@ pipeline {
                     withCredentials([string(credentialsId: 'github_token', variable: 'GITHUB_TOKEN')]) {
                         sh '''
                             git tag ${env.IMAGE_TAG}
-                            git push https://$GITHUB_TOKEN@github.com/fmininjava/service.git ${env.IMAGE_TAG}
+                            git push https://${GITHUB_TOKEN}@github.com/fmininjava/service.git ${env.IMAGE_TAG}
                         '''
                     }
               }
