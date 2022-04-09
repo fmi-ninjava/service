@@ -1,7 +1,9 @@
 package ro.unibuc.hello.controller;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
+import io.micrometer.core.instrument.Metrics;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ro.unibuc.hello.dto.Customer;
@@ -26,7 +28,11 @@ public class CustomerController {
 
     @GetMapping()
     public List<Customer> listCustomers() {
-        return customerService.listCustomers();
+        AtomicReference<List<Customer>> res = new AtomicReference<>();
+        Metrics.timer("customer.list.time", "endpoint", "customer").record(() -> {
+           res.set(customerService.listCustomers());
+        });
+        return res.get();
     }
 
     @DeleteMapping("{customerId}")
@@ -41,6 +47,11 @@ public class CustomerController {
 
     @GetMapping("/page-visit/{customerId}")
     public List<WebsiteVisitReport> test(@PathVariable String customerId) {
-        return customerService.defaultReport(customerId);
+        AtomicReference<List<WebsiteVisitReport>> res = new AtomicReference<>();
+        Metrics.counter("pageVisit.report.count", "endpoint", "pageVisit-report").increment();
+        Metrics.timer("pageVisit.report.time", "endpoint", "pageVisit-report").record(() -> {
+            res.set(customerService.defaultReport(customerId));
+        });
+        return res.get();
     }
 }

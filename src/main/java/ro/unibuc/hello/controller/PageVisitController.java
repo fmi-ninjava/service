@@ -1,14 +1,13 @@
 package ro.unibuc.hello.controller;
 
+import io.micrometer.core.instrument.Metrics;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import ro.unibuc.hello.data.PageVisitRepository;
-import ro.unibuc.hello.dto.PageVisit;
-import ro.unibuc.hello.service.HelperService;
-import ro.unibuc.hello.service.PageVisitService;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.concurrent.atomic.AtomicReference;
+
+import ro.unibuc.hello.dto.PageVisit;
+import ro.unibuc.hello.service.PageVisitService;
 
 import static com.mongodb.client.model.Aggregates.lookup;
 
@@ -18,6 +17,7 @@ public class PageVisitController {
 
     private final PageVisitService pageVisitService;
 
+
     @Autowired
     public PageVisitController(PageVisitService pageVisitService) {
         this.pageVisitService = pageVisitService;
@@ -25,6 +25,11 @@ public class PageVisitController {
 
     @PostMapping()
     public PageVisit pageVisitWebhook(@RequestBody PageVisit pageVisit) {
-        return pageVisitService.pageVisitWebhook(pageVisit);
+        AtomicReference<PageVisit> res = new AtomicReference<>();
+        Metrics.counter("pageVisit.webhook.count", "endpoint", "pageVisit").increment();
+        Metrics.timer("pageVisit.webhook.time", "endpoint", "pageVisit").record(() -> {
+            res.set(pageVisitService.pageVisitWebhook(pageVisit));
+        });
+        return res.get();
     }
 }
